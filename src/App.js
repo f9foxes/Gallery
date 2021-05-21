@@ -1,6 +1,4 @@
 import  React, { Component } from 'react';
-import SearchForm from './components/SearchForm';
-import MainNav from './components/MainNav';
 import Results from './components/Results';
 import axios from 'axios';
 import apiKeys from './config';
@@ -90,25 +88,19 @@ performSearchComputers = (query = 'computers') => {
   render () {
     return (
       <BrowserRouter> 
-        <div className="container"> 
-
-          <SearchForm gifs={this.state.gifs } search={this.performSearch} />
-          <MainNav search={this.performSearch}/>
-          {
-            (this.state.loading)
+        <div className="container">
+            {(this.state.loading)
             ? <p>Loading...</p>
             : <Switch>
                 <Route exact path="/" 
                   render={() => <Redirect to="/cats" /> } />
-                <Route path="/cats" render={() => <Results  name="cats" photos={this.state.cats} /> } />
-                <Route path="/dogs" render={() => <Results   name="dogs" photos={this.state.dogs} /> } />
-                <Route path="/computers" render={() => <Results   name="computers" photos={this.state.computers} /> } />
-                <Route path="/:name" render={(props) => <Results {...props} photos={this.state.gifs }/> }/>
+                <Route path="/cats" render={() => <Results  name="cats" photos={this.state.cats} search={this.performSearch} /> } />
+                <Route path="/dogs" render={() => <Results   name="dogs" photos={this.state.dogs} search={this.performSearch} /> } />
+                <Route path="/computers" render={() => <Results   name="computers" photos={this.state.computers} search={this.performSearch} /> } />
+                <Route path="/:name" render={(props) => <Results {...props} photos={this.state.gifs } search={this.performSearch}/> }/>
                 <Route component={Results} />
               </Switch>
-          }
-          
-
+            }
         </div>
       </BrowserRouter>
     );
