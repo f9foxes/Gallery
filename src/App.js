@@ -1,5 +1,7 @@
 import  React, { Component } from 'react';
 import Results from './components/Results';
+import SearchForm from './components/SearchForm';
+import MainNav from './components/MainNav';
 import axios from 'axios';
 import apiKeys from './config';
 import {
@@ -29,7 +31,9 @@ componentDidMount() {
     this.performSearchComputers()
 }
 
-performSearch = (query) => {
+
+
+performSearch = (query, searched) => {
   if(query) {
     this.setState({
       loading: true
@@ -38,7 +42,7 @@ performSearch = (query) => {
     .then(response => {
       this.setState({
         gifs: response.data.photos.photo,
-        loading: false
+        loading: false,
       });
     })
     .catch(error => {
@@ -89,18 +93,20 @@ performSearchComputers = (query = 'computers') => {
     return (
       <BrowserRouter> 
         <div className="container">
-            {(this.state.loading)
-            ? <p>Loading...</p>
-            : <Switch>
-                <Route exact path="/" 
-                  render={() => <Redirect to="/cats" /> } />
-                <Route path="/cats" render={() => <Results  name="cats" photos={this.state.cats} search={this.performSearch} /> } />
-                <Route path="/dogs" render={() => <Results   name="dogs" photos={this.state.dogs} search={this.performSearch} /> } />
-                <Route path="/computers" render={() => <Results   name="computers" photos={this.state.computers} search={this.performSearch} /> } />
-                <Route path="/:name" render={(props) => <Results {...props} photos={this.state.gifs } search={this.performSearch}/> }/>
-                <Route component={Results} />
-              </Switch>
-            }
+          <SearchForm search={this.performSearch} />
+          <MainNav />
+          {(this.state.loading)
+          ? <p>Loading...</p>
+          : <Switch>
+              <Route exact path="/" 
+                render={() => <Redirect to="/cats" /> } />
+              <Route path="/cats" render={() => <Results  name="cats" photos={this.state.cats} search={this.performSearch} /> } />
+              <Route path="/dogs" render={() => <Results   name="dogs" photos={this.state.dogs} search={this.performSearch} /> } />
+              <Route path="/computers" render={() => <Results   name="computers" photos={this.state.computers} search={this.performSearch} /> } />
+              <Route path="/:name" render={(props) => <Results {...props} photos={this.state.gifs } search={this.performSearch}/> }/>
+              <Route component={Results} />
+            </Switch>
+          }
         </div>
       </BrowserRouter>
     );
