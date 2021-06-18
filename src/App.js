@@ -38,7 +38,7 @@ performSearch = (query, searched) => {
     this.setState({
       loading: true
     });
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=705f69cc53ce4da17f94b0de15fecd70&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=705f69cc53ce4da17f94b0de15fecd70&tags=${query}&per_page=100&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
         gifs: response.data.photos.photo,
